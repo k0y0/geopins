@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        {{ include('partials/title-meta.html.twig') }}
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+
+        {% block additionalHead %}
+
+        {% endblock %}
+        <!-- preloader css -->
+        <link rel="stylesheet" href="/css/preloader.min.css" type="text/css" />
+
+        <!-- Bootstrap Css -->
+        <link href="/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+        <!-- Icons Css -->
+        <link href="/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <!-- App Css-->
+        <link href="/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+
+        <link href="/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
+
+        {{ include('partials/head-css.html.twig')  }}
+    </head>
+
+    <body>
+        <div id="layout-wrapper">
+        {{ include('partials/menu.html.twig') }}
+
+            <div class="main-content">
+                <div class="page-content">
+                    <div class="container-fluid">
+                        {{ include('flash_messages.html.twig') }}
+
+                        {{ include('partials/page-title.html.twig') }}
+
+                        {% block body %}
+
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+
+            {{ include('partials/footer.html.twig') }}
+
+        </div>
+
+        {{ include('partials/right-sidebar.html.twig') }}
+
+        {{ include('partials/vendor-scripts.html.twig') }}
+
+        {% block js_footer %}
+            <!-- apexcharts -->
+            <script src="/libs/apexcharts/dist/apexcharts.min.js"></script>
+            <!-- Plugins js-->
+            <script src="/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js"></script>
+            <script src="/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js"></script>
+            <!-- dashboard init -->
+            <script src="/js/pages/dashboard.init.js"></script>
+            <script src="/js/app.js"></script>
+
+            <script>
+                $(function () {
+                    $('[data-toggle="tooltip"]').tooltip()
+                })
+            </script>
+        {% endblock %}
+
+        {% block custom_js %}
+
+        {% endblock %}
+    </body>
+</html>

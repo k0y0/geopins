@@ -1,0 +1,155 @@
+{% extends 'base.html.twig' %}
+
+{% set pageTitle = 'Users' %}
+{% set title = 'List' %}
+
+{% block js_footer %}
+    {{ parent() }}
+    <!-- Responsive Table js -->
+    <script src=""></script>
+    <script src="{{ asset('/js/pages/table-responsive.init.js') }}"></script>
+    <script src="{{ asset('/libs/admin-resources/rwd-table/rwd-table.min.js') }}"></script>
+
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    {{ form_start(form, {'attr': {'class': 'row gx-3 gy-2 align-items-center mb-4 mb-lg-0'}}) }}
+                    <div class="col-sm-auto">
+                        <div class="form-floating">
+                            {{ form_widget(form.id, {'attr': {'class': 'form-control'} }) }}
+                            {{ form_label(form.id, 'ID') }}
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-floating">
+                            {{ form_widget(form.createdDateFrom, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_label(form.createdDateFrom, 'Create Date From') }}
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-floating">
+                            {{ form_widget(form.createdDateTo, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_label(form.createdDateTo, 'Create Date To') }}
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                    </div>
+                    <div class="col-sm-auto">
+                        {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-rep-plugin">
+                        <div class="table-responsive mb-0" data-pattern="priority-columns">
+                            <table id="table-users" class="table">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th data-priority="1">Email</th>
+                                    <th data-priority="2">Role</th>
+                                    <th class="text-center" data-priority="4">Create Date</th>
+                                    <th class="text-end">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% if users is defined and users is not empty %}
+                                    {% for user in users %}
+                                        <tr>
+                                            <th>{{ user.id }}</th>
+                                            <td>{{ user.email }}</td>
+                                            <td>
+                                                {% for role in user.roles %}
+                                                    <span class="badge badge-pill bg-primary">
+                                                        {{ role }}
+                                                    </span>
+                                                {% endfor %}
+                                            </td>
+                                            <td class="text-center">
+                                                {{ user.createdAt|date('Y-m-d H:i') }}
+                                            </td>
+                                            <td class="text-end">
+                                                <a href="{{ path('admin_users_info', {'user': user.id}) }}" class="btn btn-primary">
+                                                    <i class="bx bx-info-square"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr class="table-light">
+                                        <td colspan="999" class="text-center">
+                                            <i>Brak danych ¯\_(ツ)_/¯</i>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                                </tbody>
+                            </table>
+
+                            {% if paginationCount is defined and paginationCount > 1 %}
+                                <div id="pagination" class="btn-group" role="group">
+                                    {% if currentPage is defined and currentPage != 1 %}
+                                        <button class="btn btn-outline-primary" data-pagination="{{ currentPage - 1 }}">Previous</button>
+                                    {% else %}
+                                        <button class="btn btn-outline-primary disabled">Previous</button>
+                                    {% endif %}
+                                    {% for i in 1..paginationCount %}
+                                        {% if i == currentPage %}
+                                            <button class="btn btn-primary" data-pagination="{{ i }}">{{ i }}</button>
+                                        {% else %}
+                                            <button class="btn btn-outline-primary" data-pagination="{{ i }}">{{ i }}</button>
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    {% if currentPage is defined and currentPage != paginationCount %}
+                                        <button class="btn btn-outline-primary" data-pagination="{{ currentPage + 1 }}">Next</button>
+                                    {% else %}
+                                        <button class="btn btn-outline-primary disabled">Next</button>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <!-- end card -->
+        </div> <!-- end col -->
+    </div> <!-- end row -->
+{% endblock %}
+
+{% block custom_js %}
+
+    <script>
+        const form = $('[name="user_filter"]');
+        const pagesButtons = $('#pagination > button');
+
+        pagesButtons.each(function(i) {
+            let el = $(pagesButtons[i]);
+            el.on('click', function() {
+                let toPage = el.attr('data-pagination');
+                if (toPage) {
+                    getPage(toPage);
+                }
+            })
+        })
+
+        function getPage(page) {
+            let pageField = form.find('#user_filter_page');
+
+            pageField.val(page);
+            form.submit();
+        }
+    </script>
+{% endblock %}

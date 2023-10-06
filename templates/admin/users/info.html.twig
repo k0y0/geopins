@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% set pageTitle = 'Users' %}
+{% set title = 'User - ' ~ user.email %}
+
+{% block js_footer %}
+    {{ parent() }}
+
+{% endblock %}
+
+{% block body %}
+    {{ dump(user) }}
+{% endblock %}

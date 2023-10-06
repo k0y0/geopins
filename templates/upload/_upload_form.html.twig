@@ -1,0 +1,13 @@
+
+{{ form_start(form, {'attr': {'class': 'dropzone dz-clickable'}})}}
+    <div class="fallback">
+        {{ form_row(form.attachments, {'attr': {'class': ''}})}}
+    </div>
+    <div class="dz-message needsclick">
+        <div class="mb-3">
+            <i class="display-4 text-muted bx bx-cloud-upload"></i>
+        </div>
+
+        <h5>Drop files here or click to upload.</h5>
+    </div>
+{{ form_end(form)}}

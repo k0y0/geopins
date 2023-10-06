@@ -1,0 +1,94 @@
+{% extends 'base_simple.html.twig' %}
+
+
+{% set pageTitle = 'Register' %}
+{% set title = 'Register' %}
+
+{% block body %}
+    <div class="auth-page">
+        <div class="container-fluid p-0">
+            <div class="row g-0">
+                <div class="col-xxl-3 col-lg-4 col-md-5">
+                    <div class="auth-full-page-content d-flex p-sm-5 p-4">
+                        <div class="w-100">
+                            <div class="d-flex flex-column h-100">
+                                <div class="mb-4 mb-md-5 text-center">
+                                    <a href="{{ path('app_login') }}" class="d-block auth-logo">
+                                        <img src="/images/logo-sm.svg" alt="" height="28"> <span class="logo-txt">Minia</span>
+                                    </a>
+                                </div>
+                                <div class="auth-content my-auto">
+                                    <div class="text-center">
+                                        <h5 class="mb-0">Register Account</h5>
+                                    </div>
+                                    {{ form_start(registrationForm, {'attr': {'class': 'needs-validation mt-4 pt-2'}}) }}
+                                        {{ form_errors(registrationForm) }}
+                                        <div class="mb-3">
+                                            {{ form_label(registrationForm.email, 'Email', {'label_attr': {'class': 'form-label'}}) }}
+                                            {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Enter email'}}) }}
+                                            <div class="invalid-feedback">
+                                                Please Enter Email
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            {{ form_label(registrationForm.plainPassword, 'Password', {'label_attr': {'class': 'form-label'}}) }}
+                                            {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control', 'placeholder': 'Enter password'}}) }}
+                                            <div class="invalid-feedback">
+                                                Please Enter Password
+                                            </div>
+                                        </div>
+                                        <div class="mb-4">
+                                            {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
+                                            {{ form_label(registrationForm.agreeTerms, 'Agree terms of use', {'label_attr': {'class': 'form-check-label'}}) }}
+                                        </div>
+                                        <div class="mb-3">
+                                            <button class="btn btn-primary w-100 waves-effect waves-light" type="submit">Register</button>
+                                        </div>
+                                    {{ form_end(registrationForm) }}
+
+                                    <div class="mt-5 text-center">
+                                        <p class="text-muted mb-0">Already have an account ? <a href="{{ path('app_login') }}"
+                                                                                                class="text-primary fw-semibold"> Login </a> </p>
+                                    </div>
+                                </div>
+                                <div class="mt-4 mt-md-5 text-center">
+                                    <p class="mb-0">© <script>document.write(new Date().getFullYear())</script> @Koyo</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end auth full page content -->
+                </div>
+                <!-- end col -->
+                <div class="col-xxl-9 col-lg-8 col-md-7">
+                    <div class="auth-bg pt-md-5 p-4 d-flex">
+                        <div class="bg-overlay bg-primary"></div>
+                        <ul class="bg-bubbles">
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                        </ul>
+                        <!-- end bubble effect -->
+                    </div>
+                </div>
+                <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container fluid -->
+    </div>
+
+
+    {{ include('partials/vendor-scripts.html.twig') }}
+
+    <!-- validation init -->
+    <script src="/js/pages/validation.init.js"></script>
+{% endblock %}

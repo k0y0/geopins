@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% set pageTitle = 'App' %}
+{% set title = 'Upload' %}
+
+{% set currentPath = path(app.request.attributes.get('_route'),
+                       app.request.attributes.get('_route_params')) %}
+
+{% block additionalHead %}
+    <link href="/libs/dropzone/dist/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-xs-12 col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            {{ include('/upload/_upload_form.html.twig') }}
+                        </div>
+                    </div>
+
+                    {% if files is defined and files is not empty %}
+                        <div class="row mt-3">
+                            <div class="col-xs-12">
+                                <ul class="list-group">
+                                    {% for file in files %}
+                                        <ul class="list-group-item">
+                                            {{ file.filename }} - {{ file.extension }} {% include('upload/_remove_file_form.html.twig') with {'fileId': file.id}  %}
+                                        </ul>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block custom_js %}
+    <script src="/libs/dropzone/dist/min/dropzone.min.js"></script>
+    <script>
+        Dropzone.autoDiscover = false;
+        $('[name="upload_form"]').dropzone({ url: "{{ path('process_upload') }}" });
+    </script>
+{% endblock %}

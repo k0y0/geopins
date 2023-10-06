@@ -1,0 +1,43 @@
+<div class="system-message-wrap">
+    <div class="row">
+        <div class="col-12">
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success alert-dismissible alert-label-icon label-arrow fade show" role="alert">
+                    <i class="mdi mdi-check-all label-icon"></i><strong>Success</strong> -
+                    {{ flashMessage|raw }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+
+            {% for flashMessage in app.session.flashbag.get('notice') %}
+                <div class="alert alert-info alert-dismissible alert-label-icon label-arrow fade show" role="alert">
+                    {{ flashMessage|raw }}
+                </div>
+            {% endfor %}
+
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                <div class="alert alert-danger alert-dismissible alert-label-icon label-arrow fade show" role="alert">
+                    <i class="mdi mdi-block-helper label-icon"></i><strong>Danger</strong> -
+                    {{ flashMessage|raw }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+
+            {% for flashMessage in app.session.flashbag.get('info') %}
+                <div class="alert alert-info alert-dismissible alert-label-icon label-arrow fade show" role="alert">
+                    <i class="mdi mdi-block-helper label-icon"></i><strong>Info</strong> -
+                    {{ flashMessage|raw }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+
+            {% for flashMessage in app.session.flashbag.get('warning') %}
+                <div class="alert alert-warning alert-dismissible alert-label-icon label-arrow fade show" role="alert">
+                    <i class="mdi mdi-block-helper label-icon"></i><strong>Warning</strong> -
+                    {{ flashMessage|raw }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

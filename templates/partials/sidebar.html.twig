@@ -1,0 +1,71 @@
+<!-- ========== Left Sidebar Start ========== -->
+<div class="vertical-menu">
+
+    <div data-simplebar class="h-100">
+
+        <!--- Sidemenu -->
+        <div id="sidebar-menu">
+            <!-- Left Menu Start -->
+            <ul class="metismenu list-unstyled" id="side-menu">
+                <li class="menu-title" data-key="t-menu">Menu</li>
+
+                <li>
+                    <a href="{{ path('user_dashboard') }}">
+                        <i data-feather="home"></i>
+                        <span data-key="t-dashboard">Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('files') }}">
+                        <i data-feather="file"></i>
+                        <span data-key="t-files">Pliki</span>
+                    </a>
+                </li>
+
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="menu-title mt-2" data-key="t-components">Admin</li>
+
+                    {% if is_granted('ROLE_STATS') %}
+                        <li>
+                            <a href="#">
+                                <i class="bx bx-stats"></i>
+                                <span data-key="t-stats">Stats</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_USERS_MANAGEMENT') %}
+                        <li>
+                            <a href="{{ path('admin_users_list') }}">
+                                <i class="bx bx-user"></i>
+                                <span data-key="t-users">Users</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_NOTIFICATION') %}
+                        <li>
+                            <a href="{{ path('admin_notification_list') }}">
+                                <i class="bx bx-envelope"></i>
+                                <span data-key="t-forms">Notification</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_SETTINGS') %}
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow">
+                                <i class="bx bx-cog"></i>
+                                <span data-key="t-system">System</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="{{ path('admin_settings_logs') }}" data-key="t-products-list"><i class="bx bx-stats"></i>Log</a></li>
+                                <li><a href="{{ path('admin_settings_settings') }}" data-key="t-products-list"><i class="bx bx-cog"></i>Settings</a></li>
+                            </ul>
+                        </li>
+                    {% endif %}
+                {% endif %}
+
+            </ul>
+        </div>
+        <!-- Sidebar -->
+    </div>
+</div>
+<!-- Left Sidebar End -->
