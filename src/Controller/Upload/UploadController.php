@@ -6,6 +6,7 @@ use App\Entity\Upload\File;
 use App\Form\Upload\UploadFormType;
 use App\Service\Upload\UploadService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -69,5 +70,18 @@ class UploadController extends AbstractController
             $this->addFlash('error', 'Wystąpił błąd podczas usuwania pliku');
             return $this->redirectToRoute(self::defaultRoute);
         }
+    }
+
+    #[Route(path: '/files/thumbnail/{fileName}', name: 'file_get_thumbnail')]
+    public function getThumbnail(
+        string $fileName,
+        string $userUploadsDir,
+    ): Response {
+        $pathToFile = $userUploadsDir . $fileName;
+        if (!file_exists($pathToFile)) {
+            return new Response('', Response::HTTP_NOT_FOUND);
+        }
+
+        return new BinaryFileResponse($pathToFile);
     }
 }

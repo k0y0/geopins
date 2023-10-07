@@ -2,8 +2,7 @@
 
 namespace App\Controller\User;
 
-use App\Entity\User\User;
-use App\Service\Questionnaire\QuestionnaireService;
+use App\Service\Map\MapService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,17 +13,17 @@ class DashboardController extends AbstractController
     #[Route(path: '/', name: 'user_dashboard')]
     public function dashboard(
         Request $request,
+        MapService $mapService,
     ): Response {
-        /** @var User $user */
-        $user = $this->getUser();
+        $mapElements = $mapService->getMapElements($this->getUser());
 
-
-        if (!$this->isGranted('ROLE_ADMIN')) {
-        }
+        $centerZone = $mapService->getCenterZone($mapElements);
+        $zoomLevel = $mapService->getZoomLevel($mapElements, $centerZone);
 
         return $this->render('user/dashboard.html.twig', [
-            'user' => $user,
+            'mapElements' => $mapElements,
+            'centerZone' => $centerZone,
+            'zoomLevel' => $zoomLevel,
         ]);
     }
-
 }

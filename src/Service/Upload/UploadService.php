@@ -7,7 +7,6 @@ use App\Entity\User\User;
 use App\Message\ReadDataFromFile;
 use App\Repository\Upload\FileRepository;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\Messenger\MessageBus;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 class UploadService
