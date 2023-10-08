@@ -1,6 +1,5 @@
 <form action="{{ url('remove_file', { file: fileId }) }}" method="post">
     {# the argument of csrf_token() is an arbitrary string used to generate the token #}
     <input type="hidden" name="token" value="{{ csrf_token('delete-file') }}">
-
-    <button type="submit">Delete item</button>
+    <button type="submit" class="btn btn-outline-danger"><i class="bx bx-trash"></i></button>
 </form>

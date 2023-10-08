@@ -4,19 +4,24 @@ namespace App\MessageHandler;
 
 use App\Message\ReadDataFromFile;
 use App\Repository\Upload\FileRepository;
+use App\Service\Upload\Converter\Converter;
+use App\Service\Upload\Converter\Exception\UnsupportedConverterFileTypeException;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class ReadDataFromFileHandler implements MessageHandlerInterface
 {
 
     private FileRepository $fileRepository;
+    private Converter $converter;
     private string $userUploadsDir;
 
     public function __construct(
         FileRepository $fileRepository,
+        Converter $converter,
         string $userUploadsDir,
     ) {
         $this->fileRepository = $fileRepository;
+        $this->converter = $converter;
         $this->userUploadsDir = $userUploadsDir;
     }
 
@@ -31,6 +36,12 @@ class ReadDataFromFileHandler implements MessageHandlerInterface
     {
         $file = $readDataFromFile->getFile();
 
+        try {
+            $this->converter->convert($file);
+        } catch (UnsupportedConverterFileTypeException $e) {
+
+        }
+
         $exifData = exif_read_data($this->userUploadsDir . $file->getFileSrc(), null, true, true);
         $fileAdditionalData = [];
         if (isset($exifData['GPS'])) {
@@ -38,6 +49,12 @@ class ReadDataFromFileHandler implements MessageHandlerInterface
             $longitude = $this->convertExifGpsData($exifData['GPS']['GPSLongitude']);
             $fileAdditionalData['latitude'] = $latitude;
             $fileAdditionalData['longitude'] = $longitude;
+        }
+        if (isset($exifData['IFD0'])) {
+            $date = $exifData['IFD0']['DateTime'] ?? null;
+            if (!$date) {
+                $fileAdditionalData['createdAt'] = new \DateTime($date);
+            }
         }
 
         $file->setAdditionalData($fileAdditionalData);

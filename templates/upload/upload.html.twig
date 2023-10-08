@@ -24,13 +24,29 @@
                     {% if files is defined and files is not empty %}
                         <div class="row mt-3">
                             <div class="col-xs-12">
-                                <ul class="list-group">
-                                    {% for file in files %}
-                                        <ul class="list-group-item">
-                                            {{ file.filename }} - {{ file.extension }} {% include('upload/_remove_file_form.html.twig') with {'fileId': file.id}  %}
-                                        </ul>
-                                    {% endfor %}
-                                </ul>
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Nazwa</th>
+                                                <th>Data dodania</th>
+                                                <th>Opcje</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        </tbody>
+                                        {% for file in files %}
+                                            <tr>
+                                                <td><img height="200px" src="{{ path('file_get_thumbnail', {'fileName': file.filesrc}) }}" alt="{{ file.filename }}"></td>
+                                                <td>{{ file.filename }}</td>
+                                                <td>{{ file.createdAt|date('Y-m-d H:i:s') }}</td>
+                                                <td>{% include('upload/_remove_file_form.html.twig') with {'fileId': file.id} %}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     {% endif %}
